@@ -12,10 +12,14 @@ async function seed() {
     User.create({email: 'murphy@email.com', password: '123'})
   ]);
 
-  const shoutChallenge = await Challenge.create({name: 'Shout'});
+  const shoutChallenge = await Challenge.create({
+    name: 'Shout',
+    functionName: 'shout',
+    description: 'Return the first argument in uppercase'
+  });
   const helloAssertion = await Assertion.create({
     name: 'uppercases hello',
-    input: 'hello',
+    input: "'hello'",
     output: 'HELLO'
   });
   await shoutChallenge.addAssertion(helloAssertion);
