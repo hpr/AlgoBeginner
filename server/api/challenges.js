@@ -14,6 +14,17 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.get('/:id', async (req, res, next) => {
+  try {
+    const challenge = await Challenge.findByPk(+req.params.id, {
+      include: {model: Assertion}
+    });
+    res.json(challenge);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.post('/:id', async (req, res, next) => {
   try {
     const challenge = await Challenge.findByPk(+req.params.id, {
