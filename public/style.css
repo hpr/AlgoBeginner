@@ -19,3 +19,9 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
