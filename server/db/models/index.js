@@ -1,6 +1,7 @@
 const User = require('./user');
 const Challenge = require('./challenge');
 const Assertion = require('./assertion');
+const UserBest = require('./user-best');
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -10,6 +11,8 @@ const Assertion = require('./assertion');
  */
 
 Challenge.hasMany(Assertion);
+Challenge.hasMany(UserBest);
+UserBest.hasOne(User);
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,

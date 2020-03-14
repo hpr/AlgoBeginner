@@ -20,7 +20,7 @@ async function seed() {
   const helloAssertion = await Assertion.create({
     name: 'uppercases hello',
     input: "'hello'",
-    output: 'HELLO'
+    output: "'HELLO'"
   });
   await shoutChallenge.addAssertion(helloAssertion);
 
