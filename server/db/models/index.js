@@ -23,5 +23,6 @@ UserBest.hasOne(User);
 module.exports = {
   User,
   Challenge,
-  Assertion
+  Assertion,
+  UserBest
 };

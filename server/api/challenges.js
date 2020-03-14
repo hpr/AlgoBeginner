@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {Challenge, Assertion} = require('../db/models');
+const {Challenge, Assertion, UserBest, User} = require('../db/models');
 const {VM} = require('vm2');
 const {performance} = require('perf_hooks');
 module.exports = router;
@@ -18,7 +18,10 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const challenge = await Challenge.findByPk(+req.params.id, {
-      include: {model: Assertion}
+      include: [
+        {model: Assertion},
+        {model: UserBest, attributes: ['time'], include: {model: User}}
+      ]
     });
     res.json(challenge);
   } catch (err) {
@@ -29,9 +32,9 @@ router.get('/:id', async (req, res, next) => {
 router.post('/:id', async (req, res, next) => {
   try {
     const challenge = await Challenge.findByPk(+req.params.id, {
-      include: {model: Assertion}
+      include: [{model: Assertion}, {model: UserBest, include: {model: User}}]
     });
-    const results = {};
+    const tests = {};
     const start = performance.now();
     for (let i = 0; i < challenge.assertions.length; i++) {
       const asn = challenge.assertions[i];
@@ -42,13 +45,31 @@ router.post('/:id', async (req, res, next) => {
       });
       vm.run(req.body.code);
       vm.run(
-        `ext = ${challenge.functionName}(${asn.input}) === ${asn.output};`
+        `ext.test = ${challenge.functionName}(${asn.input}) === ${asn.output};`
       );
-      results[asn.name] = ext;
+      tests[asn.name] = ext.test;
     }
     const end = performance.now();
     const time = end - start;
-    res.json({results, time, code: req.body.code});
+    const pass = Object.values(tests).every(v => v);
+    const result = {tests, time, pass, code: req.body.code, id: challenge.id};
+    let myBest = challenge.userBests.find(ub => ub.user.id === req.user.id);
+    if (!myBest && pass) {
+      myBest = await UserBest.create({
+        time: result.time,
+        code: req.body.code
+      });
+      const user = await User.findByPk(req.user.id);
+      await myBest.setUser(user);
+      await challenge.addUserBest(myBest);
+    } else if (myBest && time < myBest.time && pass) {
+      const oldBest = await UserBest.findByPk(myBest.id);
+      oldBest.time = time;
+      oldBest.code = req.body.code;
+      await oldBest.save();
+    }
+    console.log(result);
+    res.json(result);
   } catch (err) {
     next(err);
   }

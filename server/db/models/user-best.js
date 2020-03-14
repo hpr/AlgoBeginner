@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
 
-const UserBest = db.define('user-best', {
+const UserBest = db.define('userBest', {
   time: {
     type: Sequelize.FLOAT,
     allowNull: false

@@ -19,19 +19,16 @@ class SingleChallenge extends React.Component {
   }
   onChange(evt) {
     this.setState({
-      [evt.target.name]: [evt.target.value]
+      [evt.target.name]: evt.target.value
     });
   }
   async onSubmit(evt) {
     evt.preventDefault();
-    const result = await this.props.tryChallenge(
-      this.props.challenge.id,
-      this.state.code
-    );
-    console.log(result);
+    await this.props.tryChallenge(this.props.challenge.id, this.state.code);
+    await this.props.getChallenge(this.props.match.params.id);
   }
   render() {
-    const {challenge} = this.props;
+    const {challenge, result} = this.props;
     return (
       <div>
         <h1>{challenge.name}</h1>
@@ -48,6 +45,23 @@ class SingleChallenge extends React.Component {
             <button type="submit">Submit</button>
           </div>
         </form>
+        {result.id === challenge.id && (
+          <div>
+            <p>Time: {result.time} ms</p>
+            <p>{result.pass ? 'PASS!' : 'Fail...'}</p>
+          </div>
+        )}
+        <div>
+          <h2>Leaderboard</h2>
+          <ol>
+            {challenge.userBests &&
+              challenge.userBests.sort(ub => ub.time).map(ub => (
+                <li key={ub.user.id}>
+                  {ub.user.email}: {ub.time} ms
+                </li>
+              ))}
+          </ol>
+        </div>
       </div>
     );
   }
@@ -57,7 +71,8 @@ class SingleChallenge extends React.Component {
  * CONTAINER
  */
 const mapState = state => ({
-  challenge: state.challenge
+  challenge: state.challenge,
+  result: state.result
 });
 
 const mapDispatch = dispatch => ({
