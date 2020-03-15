@@ -20,7 +20,7 @@ router.get('/:id', async (req, res, next) => {
     const challenge = await Challenge.findByPk(+req.params.id, {
       include: [
         {model: Assertion},
-        {model: UserBest, attributes: ['time'], include: {model: User}}
+        {model: UserBest, attributes: ['time', 'id'], include: {model: User}}
       ]
     });
     res.json(challenge);
