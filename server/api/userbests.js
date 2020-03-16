@@ -10,7 +10,7 @@ router.get('/:id', async (req, res, next) => {
     const challenge = await Challenge.findByPk(userBest.challengeId, {
       include: {model: UserBest, include: {model: User}}
     });
-    let myTime = 0;
+    let myTime = Number.MAX_VALUE;
     const myBest = challenge.userBests.find(ub => ub.user.id === req.user.id);
     if (myBest) {
       myTime = myBest.time;

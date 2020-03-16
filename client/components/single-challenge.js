@@ -30,7 +30,7 @@ class SingleChallenge extends React.Component {
   }
   render() {
     const {challenge, result, user} = this.props;
-    let myTime = 0;
+    let myTime = Number.MAX_VALUE;
     if (challenge.userBests) {
       const myBest = challenge.userBests.find(
         ub => ub.user && ub.user.id === user.id
