@@ -33,6 +33,12 @@ h1 {
   font-family: Ubuntu, Helvetica, Arial, sans-serif;
 }
 
+textarea {
+  background: linear-gradient(-90deg, #02203c, #001528);
+  color: #fff;
+  font-size: 15px;
+}
+
 /* Cards Start */
 .card_btn {
   background-color: black;

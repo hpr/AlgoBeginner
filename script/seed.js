@@ -15,14 +15,26 @@ async function seed() {
   const shoutChallenge = await Challenge.create({
     name: 'Shout',
     functionName: 'shout',
-    description: 'Return the first argument in uppercase'
+    description: 'Return the first argument in uppercase.'
   });
-  const helloAssertion = await Assertion.create({
-    name: 'uppercases hello',
-    input: "'hello'",
-    output: "'HELLO'"
-  });
-  await shoutChallenge.addAssertion(helloAssertion);
+  const shoutAssertions = await Promise.all([
+    Assertion.create({
+      name: 'uppercases hello',
+      input: "'hello'",
+      output: "'HELLO'"
+    }),
+    Assertion.create({
+      name: 'leaves uppercased string',
+      input: "'WORLD'",
+      output: "'WORLD'"
+    }),
+    Assertion.create({
+      name: 'capitalizes sentence',
+      input: "'A Boy And His Dog'",
+      output: "'A BOY AND HIS DOG'"
+    })
+  ]);
+  await Promise.all(shoutAssertions.map(a => shoutChallenge.addAssertion(a)));
 
   console.log(`seeded successfully`);
 }

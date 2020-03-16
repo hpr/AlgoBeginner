@@ -1,5 +1,6 @@
 import axios from 'axios';
 import history from '../history';
+import Swal from 'sweetalert2';
 
 /**
  * ACTION TYPES
@@ -24,6 +25,15 @@ export const tryChallenge = (id, code) => async dispatch => {
     const {data} = await axios.post(`/api/challenges/${id}`, {code});
     dispatch(triedChallenge(data));
   } catch (err) {
+    Swal.fire({
+      title: 'Challenge Submission Failed',
+      text: 'Your submission has an error. Fix it and try again.',
+      icon: 'warning',
+      timer: 5000,
+      timerProgressBar: true,
+      toast: true,
+      position: 'top-end'
+    });
     console.error(err);
   }
 };
