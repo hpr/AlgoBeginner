@@ -7,7 +7,8 @@ import {
   Signup,
   UserHome,
   SingleChallenge,
-  AllChallenges
+  AllChallenges,
+  SingleUserBest
 } from './components';
 import {me} from './store';
 
@@ -33,6 +34,7 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
             <Route exact path="/challenges" component={AllChallenges} />
             <Route path="/challenges/:id" component={SingleChallenge} />
+            <Route path="/userbests/:id" component={SingleUserBest} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

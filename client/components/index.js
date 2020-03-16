@@ -8,3 +8,4 @@ export {default as UserHome} from './user-home';
 export {Login, Signup} from './auth-form';
 export {default as SingleChallenge} from './single-challenge';
 export {default as AllChallenges} from './all-challenges';
+export {default as SingleUserBest} from './single-userbest';

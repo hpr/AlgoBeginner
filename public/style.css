@@ -5,7 +5,6 @@ body {
 }
 
 a {
-  text-decoration: none;
   color: #eee;
 }
 
@@ -37,6 +36,13 @@ textarea {
   background: linear-gradient(-90deg, #02203c, #001528);
   color: #fff;
   font-size: 15px;
+}
+
+button {
+  background: linear-gradient(-90deg, #02203c, #001528);
+  color: #fff;
+  font-size: 15px;
+  margin: 20px;
 }
 
 /* Cards Start */
