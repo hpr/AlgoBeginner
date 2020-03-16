@@ -65,7 +65,7 @@ class SingleChallenge extends React.Component {
           <h2>Leaderboard</h2>
           <ol>
             {challenge.userBests &&
-              challenge.userBests.sort(ub => ub.time).map(
+              challenge.userBests.sort((a, b) => a.time - b.time).map(
                 ub =>
                   ub.user ? (
                     <li key={ub.user.id}>
