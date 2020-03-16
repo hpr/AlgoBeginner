@@ -110,7 +110,6 @@ router.post('/:id', async (req, res, next) => {
       oldBest.code = req.body.code;
       await oldBest.save();
     }
-    console.log(result);
     res.json(result);
   } catch (err) {
     next(err);
