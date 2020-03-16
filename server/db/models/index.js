@@ -10,8 +10,8 @@ const UserBest = require('./user-best');
  *    BlogPost.belongsTo(User)
  */
 
-Challenge.hasMany(Assertion);
-Challenge.hasMany(UserBest);
+Challenge.hasMany(Assertion, {onDelete: 'CASCADE'});
+Challenge.hasMany(UserBest, {onDelete: 'CASCADE'});
 UserBest.hasOne(User);
 
 /**

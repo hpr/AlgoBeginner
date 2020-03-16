@@ -15,6 +15,48 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.post('/', async (req, res, next) => {
+  try {
+    if (!req.user || !req.user.isAdmin) {
+      res.sendStatus(403);
+      return;
+    }
+    const challenge = await Challenge.create(req.body);
+    res.json(challenge);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete('/:id', async (req, res, next) => {
+  try {
+    if (!req.user || !req.user.isAdmin) {
+      res.sendStatus(403);
+      return;
+    }
+    const challenge = await Challenge.findByPk(+req.params.id);
+    await challenge.destroy();
+    res.sendStatus(201);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post('/:id/addAssertion', async (req, res, next) => {
+  try {
+    if (!req.user || !req.user.isAdmin) {
+      res.sendStatus(403);
+      return;
+    }
+    const assertion = await Assertion.create(req.body);
+    const challenge = await Challenge.findByPk(+req.params.id);
+    await challenge.addAssertion(assertion);
+    res.json(assertion);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get('/:id', async (req, res, next) => {
   try {
     const challenge = await Challenge.findByPk(+req.params.id, {

@@ -9,3 +9,4 @@ export {Login, Signup} from './auth-form';
 export {default as SingleChallenge} from './single-challenge';
 export {default as AllChallenges} from './all-challenges';
 export {default as SingleUserBest} from './single-userbest';
+export {default as Admin} from './admin';
