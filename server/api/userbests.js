@@ -16,7 +16,7 @@ router.get('/:id', async (req, res, next) => {
       myTime = myBest.time;
     }
     if (userBest.time < myTime) {
-      res.sendStatus(204);
+      res.sendStatus(403);
       return;
     }
     res.json(userBest);
