@@ -70,7 +70,7 @@ class SingleChallenge extends React.Component {
                   ub.user ? (
                     <li key={ub.user.id}>
                       {ub.user.email}: {ub.time} ms{' '}
-                      {ub.time <= myTime && (
+                      {ub.time >= myTime && (
                         <Link to={`/userbests/${ub.id}`}>
                           <button>View Code</button>
                         </Link>
