@@ -109,6 +109,8 @@ router.post('/:id', async (req, res, next) => {
       oldBest.time = time;
       oldBest.code = req.body.code;
       await oldBest.save();
+      const user = await User.findByPk(req.user.id);
+      await oldBest.setUser(user);
     }
     res.json(result);
   } catch (err) {

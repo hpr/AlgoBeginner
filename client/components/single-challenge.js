@@ -32,7 +32,9 @@ class SingleChallenge extends React.Component {
     const {challenge, result, user} = this.props;
     let myTime = 0;
     if (challenge.userBests) {
-      const myBest = challenge.userBests.find(ub => ub.user.id === user.id);
+      const myBest = challenge.userBests.find(
+        ub => ub.user && ub.user.id === user.id
+      );
       if (myBest) {
         myTime = myBest.time;
       }
@@ -63,16 +65,21 @@ class SingleChallenge extends React.Component {
           <h2>Leaderboard</h2>
           <ol>
             {challenge.userBests &&
-              challenge.userBests.sort(ub => ub.time).map(ub => (
-                <li key={ub.user.id}>
-                  {ub.user.email}: {ub.time} ms{' '}
-                  {ub.time <= myTime && (
-                    <Link to={`/userbests/${ub.id}`}>
-                      <button>View Code</button>
-                    </Link>
-                  )}
-                </li>
-              ))}
+              challenge.userBests.sort(ub => ub.time).map(
+                ub =>
+                  ub.user ? (
+                    <li key={ub.user.id}>
+                      {ub.user.email}: {ub.time} ms{' '}
+                      {ub.time <= myTime && (
+                        <Link to={`/userbests/${ub.id}`}>
+                          <button>View Code</button>
+                        </Link>
+                      )}
+                    </li>
+                  ) : (
+                    ''
+                  )
+              )}
           </ol>
         </div>
       </div>

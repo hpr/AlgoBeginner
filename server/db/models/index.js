@@ -10,9 +10,9 @@ const UserBest = require('./user-best');
  *    BlogPost.belongsTo(User)
  */
 
-Challenge.hasMany(Assertion, {onDelete: 'CASCADE'});
-Challenge.hasMany(UserBest, {onDelete: 'CASCADE'});
-UserBest.hasOne(User);
+Challenge.hasMany(Assertion, {onDelete: 'cascade'});
+Challenge.hasMany(UserBest, {onDelete: 'cascade'});
+UserBest.hasOne(User, {foreignKey: {allowNull: false}});
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
